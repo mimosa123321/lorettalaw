@@ -1,3 +1,6 @@
 import Application from './components/Application';
 
-console.log(Application.init());
+require('./../sass/style.scss');
+
+const App = new Application();
+App.init();
