@@ -1,0 +1,22 @@
+{
+  "name": "lorettalaw",
+  "version": "1.0.0",
+  "description": "Loretta Law's albums",
+  "scripts": {
+    "eslint": "eslint *.config.js src api",
+    "dev-start-devserver": "rimraf build && webpack-dev-server -d --host 0.0.0.0",
+    "dev-build": "rimraf build && webpack",
+    "prod-build": "rimraf build && webpack -p --optimize-minimize --optimize-dedupe",
+    "prod-build-and-deploy": "rimraf build && webpack -p --optimize-minimize --optimize-dedupe && cd build && rsync -rave \"ssh -i /Users/$USER/.ssh/movepin.pem\" -r . ec2-user@54.179.174.190:~/movepin/static",
+    "prod-deploy-api": "cd api && rsync -rave \"ssh -i /Users/$USER/.ssh/movepin.pem\" --exclude \"node_modules\" --exclude \".DS_Store\" -r . ec2-user@54.179.174.190:~/movepin && ssh -i \"/Users/$USER/.ssh/movepin.pem\" ec2-user@54.179.174.190 -t \"sudo restart movepin\"",
+    "prod-npm-install": "ssh -i \"/Users/$USER/.ssh/movepin.pem\" ec2-user@54.179.174.190 -t \"cd movepin && sudo stop movepin && npm install --no-optional --ignore-scripts && sudo start movepin\"",
+    "prod-restart-server": "ssh -i \"/Users/$USER/.ssh/movepin.pem\" ec2-user@54.179.174.190 -t \"sudo restart movepin\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.1"
+  },
+  "author": "Mimosa Poon",
+  "license": "MIT"
+}
