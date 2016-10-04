@@ -1,0 +1,57 @@
+#intro {
+  display: table;
+  position: relative;
+  height: 100%;
+  margin: 0 auto;
+
+  .inside {
+    display: table-cell;
+    vertical-align: middle;
+
+    .box {
+      display: block;
+      overflow: hidden;
+
+      img {
+        transform: translate3d(0px, 110%, 0px);
+        &.show {
+          transition: transform 0.5s ease-out;
+          transform: translate3d(0px, 0px, 0px);
+        }
+        &.hide {
+          transition: transform 0.4s ease-in;
+          transform: translate3d(0px, -110%, 0px);
+        }
+        @media screen and (min-width:321px) and (max-width:768px) {
+          width: 300px;
+          height: auto;
+        }
+        @media screen and (min-width:0) and (max-width:320px) {
+          width: 250px;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+#loader {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height:7px;
+  background-color: white;
+  transform: scale3d(0,1,1);
+  transform-origin: 0 0;
+  &.finish {
+    transition: transform 1.5s ease-out;
+    transform: scale3d(1,1,1);
+  }
+  &.hide {
+    transition: transform 0.3s ease-in;
+    transform: scale3d(1,0,1);
+  }
+  @media screen and (min-width:0) and (max-width:768px) {
+    height:4px;
+  }
+}

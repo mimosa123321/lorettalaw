@@ -1,0 +1,101 @@
+#menu {
+  position: absolute;
+  display: table;
+  width: 67px;
+  height: 100%;
+  background-color: rgba(171, 171, 171, 0.7);
+  border-right: 1px solid #c5c5c5;
+  transform: translate3d(-100%,0,0);
+  @media screen and (min-width:0px) and (max-width:768px) {
+    display: block;
+    top:0;
+    width: 100%;
+    height: 75px;
+    background-color: transparent;
+    transform: translate3d(0,-103%,0);
+  }
+  &.show {
+    transition: transform 0.4s ease-out;
+    transform: translate3d(0,0,0);
+
+    .hamburger {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      cursor: pointer;
+      @media screen and (min-width:0px) and (max-width:768px) {
+        display: block;
+        position: relative;
+        left: 18px;
+        top: 25px;
+        width: 25px;
+        cursor: pointer;
+      }
+      .line {
+        height: 2px;
+        margin: 5px 24px;
+        background-color: #ffffff;;
+        transition: transform 0.3s ease-out;
+        transform: scaleX(1) rotate(0deg);
+        @media screen and (min-width:0px) and (max-width:768px) {
+          margin: 7px 0px;
+        }
+      }
+      &:hover {
+        #line1 {
+          transition: transform 0.3s ease-out;
+          transform: scaleX(1) rotate(45deg);
+          @media screen and (min-width:0px) and (max-width:768px) {
+            margin: 7px 0px;
+          }
+        }
+        #line2 {
+          transition: transform 0.3s ease-out;
+          transform-origin: left top;
+          transform: scaleX(0) rotate(0deg);
+          @media screen and (min-width:0px) and (max-width:768px) {
+            margin: 7px 0px;
+          }
+        }
+        #line3 {
+          transition: transform 0.3s ease-out;
+          transform: scaleX(1) rotate(-45deg);
+          @media screen and (min-width:0px) and (max-width:768px) {
+            margin: 7px 0px;
+          }
+        }
+      }
+    }
+  }
+
+  &.open {
+    display: table;
+    transition: width 0.4s ease-out;
+    width: 140px;
+
+    ul{
+      display: table-cell;
+      vertical-align: middle;
+      padding: 0;
+      margin: 0;
+      transform: translate3d(-100%,0,0);
+      &.open {
+        transform: translate3d(0,0,0);
+      }
+
+      li {
+        padding: 14px;
+        margin: 0;
+        font-size: 14px;
+        text-align: center;
+        color: #737373;
+        list-style: none;
+      }
+    }
+  }
+
+  ul{
+    display: none;
+  }
+
+}
