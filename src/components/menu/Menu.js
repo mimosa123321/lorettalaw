@@ -8,77 +8,60 @@ import { transiteMove, transitionEnd } from './../animateUtils/animateUtils';
 
 const submenu = new Submenu();
 const menu = $('#menu');
-const menuMain = $('#menu').find('.main');
+const menuMainList = document.getElementById('mainLists');
 
 export default class Menu extends MenuBase {
     constructor() {
         super();
-        // this.bindButtons();
         myEmitter.on('menuOverListener', this.overListener);
         myEmitter.on('menuClickListener', this.clickListener);
-        this.init(menuMain, 0, 0, 'menuClickListener', 'menuOverListener');
+        this.init(menuMainList, 0, 0, 'menuClickListener', 'menuOverListener');
     }
 
     bindData() {
-        let dataArr = ['Gallery','News','Bio','Contact'];
-
+        let dataArr = window.menu;
         this.initMenu(dataArr);
-    }
+        this.setDefaultButton();
+    };
 
-    /*setDefaultButtonClick() {
-        const btns = menuMain.find('ul').find('li');
+    setDefaultButton() {
+        myEmitter.emit('menuOverListener', 0);
+
+        const btns = menu.find('ul').find('li');
         btns.each((index, btn)=> {
-            if(Store.menuClickedId === index) {
+            if(Store.menuOverId === index) {
                 this.buttonOver(btn);
             }else {
                 this.buttonOut(btn);
             }
         });
-    }*/
-
-    /*bindButtons() {
-        const btns = menuMain.find('ul').find('li');
-        bindButtonsClick(btns, (clickedId, clickedBtn, unclickedArr)=> {
-            Store.menuClickedId = clickedId;
-        });
-
-        bindButtonsOver(btns, (overId, overBtn, outArr)=> {
-            if(Store.menuOverId === overId) {
-                return;
-            }
-            Store.menuOverId = overId;
-            this.buttonOver(overBtn);
-            this.buttonOut(outArr);
-        });
     }
 
-    buttonOver(btn) {
-        transiteMove($(btn), 'over');
+    clickListener(id) {
+        Store.menuClickedId = id;
+    }
+
+    overListener(id) {
+        if(Store.menuOverId === id) {
+            return;
+        }
+        Store.menuOverId = id;
         submenu.bindData();
     }
-
-    buttonOut(unclickedBtn) {
-        if(Array.isArray(unclickedBtn)) {
-            let i;
-            for(i=0; i<unclickedBtn.length; i++) {
-                let btn = unclickedBtn[i].btn;
-                $(btn).removeClass('over');
-            }
-        }else {
-            $(unclickedBtn).removeClass('over');
-        }
-    }*/
 
     open() {
         menu.css('display','block');
         setTimeout(()=>{
             transiteMove(menu, 'open', ()=> {
-                this.setDefaultButtonClick();
+                this.bindData();
             });
 
         },50);
     }
+
     close() {
+        Store.menuOverId = -1;
+        submenu.clear();
         menu.removeClass('open');
         transitionEnd(menu, ()=> {
             menu.css('display','none');
