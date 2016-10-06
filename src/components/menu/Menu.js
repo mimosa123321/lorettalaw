@@ -1,39 +1,52 @@
 import $ from 'jquery';
 
+import Store from './../../store/Store';
+import myEmitter from './../myEmitter/MyEmitter';
+import MenuBase from './MenuBase';
 import Submenu from './Submenu';
-import { bindButtonsClick, bindButtonsOver } from './MenuButton';
 import { transiteMove, transitionEnd } from './../animateUtils/animateUtils';
 
 const submenu = new Submenu();
 const menu = $('#menu');
 const menuMain = $('#menu').find('.main');
-let menuClickedId = 0;
-let menuOverId = 0;
 
-export default class Menu {
+export default class Menu extends MenuBase {
     constructor() {
-        this.bindButtons();
+        super();
+        // this.bindButtons();
+        myEmitter.on('menuOverListener', this.overListener);
+        myEmitter.on('menuClickListener', this.clickListener);
+        this.init(menuMain, 0, 0, 'menuClickListener', 'menuOverListener');
     }
 
-    setDefaultButtonClick() {
+    bindData() {
+        let dataArr = ['Gallery','News','Bio','Contact'];
+
+        this.initMenu(dataArr);
+    }
+
+    /*setDefaultButtonClick() {
         const btns = menuMain.find('ul').find('li');
         btns.each((index, btn)=> {
-            if(menuClickedId === index) {
+            if(Store.menuClickedId === index) {
                 this.buttonOver(btn);
             }else {
                 this.buttonOut(btn);
             }
         });
-    }
+    }*/
 
-    bindButtons() {
+    /*bindButtons() {
         const btns = menuMain.find('ul').find('li');
         bindButtonsClick(btns, (clickedId, clickedBtn, unclickedArr)=> {
-            menuClickedId = clickedId;
+            Store.menuClickedId = clickedId;
         });
 
         bindButtonsOver(btns, (overId, overBtn, outArr)=> {
-            menuOverId = overId;
+            if(Store.menuOverId === overId) {
+                return;
+            }
+            Store.menuOverId = overId;
             this.buttonOver(overBtn);
             this.buttonOut(outArr);
         });
@@ -41,7 +54,7 @@ export default class Menu {
 
     buttonOver(btn) {
         transiteMove($(btn), 'over');
-        submenu.updateData(menuOverId);
+        submenu.bindData();
     }
 
     buttonOut(unclickedBtn) {
@@ -54,7 +67,7 @@ export default class Menu {
         }else {
             $(unclickedBtn).removeClass('over');
         }
-    }
+    }*/
 
     open() {
         menu.css('display','block');

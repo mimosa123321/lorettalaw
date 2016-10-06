@@ -1,29 +1,33 @@
 import $ from 'jquery';
+
+import myEmitter from './../myEmitter/MyEmitter';
 import { bindButtonsClick, bindButtonsOver } from './MenuButton';
-import { transiteMove, transitionEnd } from './../animateUtils/animateUtils';
+import { transiteMove } from './../animateUtils/animateUtils';
 
 const maxRows = 12;
 let totalColumn = 0;
 
 export default class MenuBase {
-    constructor(_menuBtns,  _menuLists, _clickedId, _overId, _menuArr) {
-        this.menuBtns = _menuBtns;
+    constructor() {
+    }
+
+    init(_menuLists, _clickedId, _overId, _clickListener, _overListener) {
         this.menuLists = _menuLists;
         this.clickedId = _clickedId;
         this.overId = _overId;
-        this.menuArr = _menuArr;
-        this.bindButtons();
+        this.clickListener = _clickListener;
+        this.overListener = _overListener;
     }
 
-    bindData(_dataId) {
+    initMenu(dataArr) {
+        this.dispose();
+        this.menuArr = dataArr;
 
-    }
-
-    initMenu() {
         if(this.menuArr.length === 0) {
             return;
         }
         this.makeColumn();
+        this.bindButtons();
     }
 
     makeColumn() {
@@ -33,7 +37,7 @@ export default class MenuBase {
         var i = maxRows * totalColumn, row = 0;
         while (i<this.menuArr.length && row < maxRows) {
             var list = document.createElement('li');
-            this.open(list, i);
+            this.show(list, i);
             list.innerHTML = this.menuArr[i];
             col.appendChild(list);
             i++;
@@ -46,19 +50,22 @@ export default class MenuBase {
         }
     }
 
-    open(list, id) {
+    show(list, id) {
         setTimeout(()=> {
-            transiteMove($(list), 'open');
+            transiteMove($(list), 'show');
         }, 10 + (id+1) * 50);
     }
 
     bindButtons() {
-        bindButtonsClick(this.menuBtns, (clickedId, clickedBtn, unclickedArr)=> {
+        const btns = $(this.menuLists).find('ul').find('li');
+        bindButtonsClick(btns, (clickedId, clickedBtn, unclickedArr)=> {
             this.clickedId = clickedId;
+            myEmitter.emit(this.clickListener, this.clickedId);
         });
 
-        bindButtonsOver(this.menuBtns, (overId, overBtn, outArr)=> {
+        bindButtonsOver(btns, (overId, overBtn, outArr)=> {
             this.overId = overId;
+            myEmitter.emit(this.overListener, this.overId);
             this.buttonOver(overBtn);
             this.buttonOut(outArr);
         });
@@ -68,19 +75,20 @@ export default class MenuBase {
         transiteMove($(btn), 'over');
     }
 
-    buttonOut(unclickedBtn) {
-        if(Array.isArray(unclickedBtn)) {
+    buttonOut(outBtn) {
+        if(Array.isArray(outBtn)) {
             let i;
-            for(i=0; i<unclickedBtn.length; i++) {
-                let btn = unclickedBtn[i].btn;
+            for(i=0; i<outBtn.length; i++) {
+                let btn = outBtn[i].btn;
                 $(btn).removeClass('over');
             }
         }else {
-            $(unclickedBtn).removeClass('over');
+            $(outBtn).removeClass('over');
         }
     }
 
     dispose() {
+        $(this.menuLists).empty();
         totalColumn = 0;
         this.menuArr = [];
     }
