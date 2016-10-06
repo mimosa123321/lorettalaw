@@ -52,7 +52,10 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	console.log(_Application2.default.init());
+	__webpack_require__(312);
+
+	var App = new _Application2.default();
+	App.init();
 
 /***/ },
 /* 1 */
@@ -72,9 +75,34 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
+	var _Opening = __webpack_require__(300);
+
+	var _Opening2 = _interopRequireDefault(_Opening);
+
+	var _Landing = __webpack_require__(304);
+
+	var _Landing2 = _interopRequireDefault(_Landing);
+
+	var _Nav = __webpack_require__(305);
+
+	var _Nav2 = _interopRequireDefault(_Nav);
+
+	var _Menu = __webpack_require__(308);
+
+	var _Menu2 = _interopRequireDefault(_Menu);
+
+	var _MyEmitter = __webpack_require__(306);
+
+	var _MyEmitter2 = _interopRequireDefault(_MyEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var opening = new _Opening2.default();
+	var landing = new _Landing2.default();
+	var nav = new _Nav2.default();
+	var menu = new _Menu2.default();
 
 	var Application = function () {
 	    function Application() {
@@ -84,7 +112,35 @@
 	    _createClass(Application, [{
 	        key: 'init',
 	        value: function init() {
-	            console.log("Application init");
+	            this.initOpening();
+	        }
+	    }, {
+	        key: 'initOpening',
+	        value: function initOpening() {
+	            var _this = this;
+
+	            opening.init();
+	            opening.preload().then(function () {
+	                _this.initLanding();
+	                _this.initNav();
+	            });
+	        }
+	    }, {
+	        key: 'initLanding',
+	        value: function initLanding() {
+	            landing.init();
+	        }
+	    }, {
+	        key: 'initNav',
+	        value: function initNav() {
+	            nav.init();
+	            _MyEmitter2.default.on('onNavClick', function (status) {
+	                if (status === 'open') {
+	                    menu.open();
+	                } else {
+	                    menu.close();
+	                }
+	            });
 	        }
 	    }]);
 
@@ -18442,6 +18498,1857 @@
 
 	return jQuery;
 	} );
+
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _jquery = __webpack_require__(299);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _imagesloaded = __webpack_require__(301);
+
+	var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
+
+	var _animateUtils = __webpack_require__(303);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Opening = function () {
+	    function Opening() {
+	        _classCallCheck(this, Opening);
+	    }
+
+	    _createClass(Opening, [{
+	        key: 'init',
+	        value: function init() {
+	            this.showIntro();
+	        }
+	    }, {
+	        key: 'showIntro',
+	        value: function showIntro() {
+	            var img = (0, _jquery2.default)('#intro').find('.inside').find('.box').find('img');
+	            setTimeout(function () {
+	                (0, _animateUtils.transiteMove)(img, 'show');
+	            }, 100);
+	        }
+	    }, {
+	        key: 'hideIntro',
+	        value: function hideIntro() {
+	            var img = (0, _jquery2.default)('#intro').find('.inside').find('.box').find('img');
+	            (0, _animateUtils.transiteMove)(img, 'hide', function () {
+	                (0, _jquery2.default)('#intro').css('display', 'none');
+	            });
+	        }
+	    }, {
+	        key: 'preload',
+	        value: function preload() {
+	            var _this = this;
+
+	            return new Promise(function (resolve) {
+	                var loader = (0, _jquery2.default)('#loader');
+	                var imgLoad = (0, _imagesloaded2.default)('#landing', { background: '.background' }, function () {
+	                    (0, _animateUtils.transiteMove)(loader, 'finish', function () {
+	                        _this.hideIntro();
+	                        _this.hideLoader();
+	                        resolve();
+	                    });
+	                });
+
+	                imgLoad.on('progress', function (instance, image) {});
+	            });
+	        }
+	    }, {
+	        key: 'hideLoader',
+	        value: function hideLoader() {
+	            var loader = (0, _jquery2.default)('#loader');
+	            (0, _animateUtils.transiteMove)(loader, 'hide');
+	        }
+	    }]);
+
+	    return Opening;
+	}();
+
+	exports.default = Opening;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * imagesLoaded v4.1.1
+	 * JavaScript is all like "You images are done yet or what?"
+	 * MIT License
+	 */
+
+	( function( window, factory ) { 'use strict';
+	  // universal module definition
+
+	  /*global define: false, module: false, require: false */
+
+	  if ( true ) {
+	    // AMD
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	      __webpack_require__(302)
+	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( EvEmitter ) {
+	      return factory( window, EvEmitter );
+	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if ( typeof module == 'object' && module.exports ) {
+	    // CommonJS
+	    module.exports = factory(
+	      window,
+	      require('ev-emitter')
+	    );
+	  } else {
+	    // browser global
+	    window.imagesLoaded = factory(
+	      window,
+	      window.EvEmitter
+	    );
+	  }
+
+	})( window,
+
+	// --------------------------  factory -------------------------- //
+
+	function factory( window, EvEmitter ) {
+
+	'use strict';
+
+	var $ = window.jQuery;
+	var console = window.console;
+
+	// -------------------------- helpers -------------------------- //
+
+	// extend objects
+	function extend( a, b ) {
+	  for ( var prop in b ) {
+	    a[ prop ] = b[ prop ];
+	  }
+	  return a;
+	}
+
+	// turn element or nodeList into an array
+	function makeArray( obj ) {
+	  var ary = [];
+	  if ( Array.isArray( obj ) ) {
+	    // use object if already an array
+	    ary = obj;
+	  } else if ( typeof obj.length == 'number' ) {
+	    // convert nodeList to array
+	    for ( var i=0; i < obj.length; i++ ) {
+	      ary.push( obj[i] );
+	    }
+	  } else {
+	    // array of single index
+	    ary.push( obj );
+	  }
+	  return ary;
+	}
+
+	// -------------------------- imagesLoaded -------------------------- //
+
+	/**
+	 * @param {Array, Element, NodeList, String} elem
+	 * @param {Object or Function} options - if function, use as callback
+	 * @param {Function} onAlways - callback function
+	 */
+	function ImagesLoaded( elem, options, onAlways ) {
+	  // coerce ImagesLoaded() without new, to be new ImagesLoaded()
+	  if ( !( this instanceof ImagesLoaded ) ) {
+	    return new ImagesLoaded( elem, options, onAlways );
+	  }
+	  // use elem as selector string
+	  if ( typeof elem == 'string' ) {
+	    elem = document.querySelectorAll( elem );
+	  }
+
+	  this.elements = makeArray( elem );
+	  this.options = extend( {}, this.options );
+
+	  if ( typeof options == 'function' ) {
+	    onAlways = options;
+	  } else {
+	    extend( this.options, options );
+	  }
+
+	  if ( onAlways ) {
+	    this.on( 'always', onAlways );
+	  }
+
+	  this.getImages();
+
+	  if ( $ ) {
+	    // add jQuery Deferred object
+	    this.jqDeferred = new $.Deferred();
+	  }
+
+	  // HACK check async to allow time to bind listeners
+	  setTimeout( function() {
+	    this.check();
+	  }.bind( this ));
+	}
+
+	ImagesLoaded.prototype = Object.create( EvEmitter.prototype );
+
+	ImagesLoaded.prototype.options = {};
+
+	ImagesLoaded.prototype.getImages = function() {
+	  this.images = [];
+
+	  // filter & find items if we have an item selector
+	  this.elements.forEach( this.addElementImages, this );
+	};
+
+	/**
+	 * @param {Node} element
+	 */
+	ImagesLoaded.prototype.addElementImages = function( elem ) {
+	  // filter siblings
+	  if ( elem.nodeName == 'IMG' ) {
+	    this.addImage( elem );
+	  }
+	  // get background image on element
+	  if ( this.options.background === true ) {
+	    this.addElementBackgroundImages( elem );
+	  }
+
+	  // find children
+	  // no non-element nodes, #143
+	  var nodeType = elem.nodeType;
+	  if ( !nodeType || !elementNodeTypes[ nodeType ] ) {
+	    return;
+	  }
+	  var childImgs = elem.querySelectorAll('img');
+	  // concat childElems to filterFound array
+	  for ( var i=0; i < childImgs.length; i++ ) {
+	    var img = childImgs[i];
+	    this.addImage( img );
+	  }
+
+	  // get child background images
+	  if ( typeof this.options.background == 'string' ) {
+	    var children = elem.querySelectorAll( this.options.background );
+	    for ( i=0; i < children.length; i++ ) {
+	      var child = children[i];
+	      this.addElementBackgroundImages( child );
+	    }
+	  }
+	};
+
+	var elementNodeTypes = {
+	  1: true,
+	  9: true,
+	  11: true
+	};
+
+	ImagesLoaded.prototype.addElementBackgroundImages = function( elem ) {
+	  var style = getComputedStyle( elem );
+	  if ( !style ) {
+	    // Firefox returns null if in a hidden iframe https://bugzil.la/548397
+	    return;
+	  }
+	  // get url inside url("...")
+	  var reURL = /url\((['"])?(.*?)\1\)/gi;
+	  var matches = reURL.exec( style.backgroundImage );
+	  while ( matches !== null ) {
+	    var url = matches && matches[2];
+	    if ( url ) {
+	      this.addBackground( url, elem );
+	    }
+	    matches = reURL.exec( style.backgroundImage );
+	  }
+	};
+
+	/**
+	 * @param {Image} img
+	 */
+	ImagesLoaded.prototype.addImage = function( img ) {
+	  var loadingImage = new LoadingImage( img );
+	  this.images.push( loadingImage );
+	};
+
+	ImagesLoaded.prototype.addBackground = function( url, elem ) {
+	  var background = new Background( url, elem );
+	  this.images.push( background );
+	};
+
+	ImagesLoaded.prototype.check = function() {
+	  var _this = this;
+	  this.progressedCount = 0;
+	  this.hasAnyBroken = false;
+	  // complete if no images
+	  if ( !this.images.length ) {
+	    this.complete();
+	    return;
+	  }
+
+	  function onProgress( image, elem, message ) {
+	    // HACK - Chrome triggers event before object properties have changed. #83
+	    setTimeout( function() {
+	      _this.progress( image, elem, message );
+	    });
+	  }
+
+	  this.images.forEach( function( loadingImage ) {
+	    loadingImage.once( 'progress', onProgress );
+	    loadingImage.check();
+	  });
+	};
+
+	ImagesLoaded.prototype.progress = function( image, elem, message ) {
+	  this.progressedCount++;
+	  this.hasAnyBroken = this.hasAnyBroken || !image.isLoaded;
+	  // progress event
+	  this.emitEvent( 'progress', [ this, image, elem ] );
+	  if ( this.jqDeferred && this.jqDeferred.notify ) {
+	    this.jqDeferred.notify( this, image );
+	  }
+	  // check if completed
+	  if ( this.progressedCount == this.images.length ) {
+	    this.complete();
+	  }
+
+	  if ( this.options.debug && console ) {
+	    console.log( 'progress: ' + message, image, elem );
+	  }
+	};
+
+	ImagesLoaded.prototype.complete = function() {
+	  var eventName = this.hasAnyBroken ? 'fail' : 'done';
+	  this.isComplete = true;
+	  this.emitEvent( eventName, [ this ] );
+	  this.emitEvent( 'always', [ this ] );
+	  if ( this.jqDeferred ) {
+	    var jqMethod = this.hasAnyBroken ? 'reject' : 'resolve';
+	    this.jqDeferred[ jqMethod ]( this );
+	  }
+	};
+
+	// --------------------------  -------------------------- //
+
+	function LoadingImage( img ) {
+	  this.img = img;
+	}
+
+	LoadingImage.prototype = Object.create( EvEmitter.prototype );
+
+	LoadingImage.prototype.check = function() {
+	  // If complete is true and browser supports natural sizes,
+	  // try to check for image status manually.
+	  var isComplete = this.getIsImageComplete();
+	  if ( isComplete ) {
+	    // report based on naturalWidth
+	    this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
+	    return;
+	  }
+
+	  // If none of the checks above matched, simulate loading on detached element.
+	  this.proxyImage = new Image();
+	  this.proxyImage.addEventListener( 'load', this );
+	  this.proxyImage.addEventListener( 'error', this );
+	  // bind to image as well for Firefox. #191
+	  this.img.addEventListener( 'load', this );
+	  this.img.addEventListener( 'error', this );
+	  this.proxyImage.src = this.img.src;
+	};
+
+	LoadingImage.prototype.getIsImageComplete = function() {
+	  return this.img.complete && this.img.naturalWidth !== undefined;
+	};
+
+	LoadingImage.prototype.confirm = function( isLoaded, message ) {
+	  this.isLoaded = isLoaded;
+	  this.emitEvent( 'progress', [ this, this.img, message ] );
+	};
+
+	// ----- events ----- //
+
+	// trigger specified handler for event type
+	LoadingImage.prototype.handleEvent = function( event ) {
+	  var method = 'on' + event.type;
+	  if ( this[ method ] ) {
+	    this[ method ]( event );
+	  }
+	};
+
+	LoadingImage.prototype.onload = function() {
+	  this.confirm( true, 'onload' );
+	  this.unbindEvents();
+	};
+
+	LoadingImage.prototype.onerror = function() {
+	  this.confirm( false, 'onerror' );
+	  this.unbindEvents();
+	};
+
+	LoadingImage.prototype.unbindEvents = function() {
+	  this.proxyImage.removeEventListener( 'load', this );
+	  this.proxyImage.removeEventListener( 'error', this );
+	  this.img.removeEventListener( 'load', this );
+	  this.img.removeEventListener( 'error', this );
+	};
+
+	// -------------------------- Background -------------------------- //
+
+	function Background( url, element ) {
+	  this.url = url;
+	  this.element = element;
+	  this.img = new Image();
+	}
+
+	// inherit LoadingImage prototype
+	Background.prototype = Object.create( LoadingImage.prototype );
+
+	Background.prototype.check = function() {
+	  this.img.addEventListener( 'load', this );
+	  this.img.addEventListener( 'error', this );
+	  this.img.src = this.url;
+	  // check if image is already complete
+	  var isComplete = this.getIsImageComplete();
+	  if ( isComplete ) {
+	    this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
+	    this.unbindEvents();
+	  }
+	};
+
+	Background.prototype.unbindEvents = function() {
+	  this.img.removeEventListener( 'load', this );
+	  this.img.removeEventListener( 'error', this );
+	};
+
+	Background.prototype.confirm = function( isLoaded, message ) {
+	  this.isLoaded = isLoaded;
+	  this.emitEvent( 'progress', [ this, this.element, message ] );
+	};
+
+	// -------------------------- jQuery -------------------------- //
+
+	ImagesLoaded.makeJQueryPlugin = function( jQuery ) {
+	  jQuery = jQuery || window.jQuery;
+	  if ( !jQuery ) {
+	    return;
+	  }
+	  // set local variable
+	  $ = jQuery;
+	  // $().imagesLoaded()
+	  $.fn.imagesLoaded = function( options, callback ) {
+	    var instance = new ImagesLoaded( this, options, callback );
+	    return instance.jqDeferred.promise( $(this) );
+	  };
+	};
+	// try making plugin
+	ImagesLoaded.makeJQueryPlugin();
+
+	// --------------------------  -------------------------- //
+
+	return ImagesLoaded;
+
+	});
+
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * EvEmitter v1.0.3
+	 * Lil' event emitter
+	 * MIT License
+	 */
+
+	/* jshint unused: true, undef: true, strict: true */
+
+	( function( global, factory ) {
+	  // universal module definition
+	  /* jshint strict: false */ /* globals define, module, window */
+	  if ( true ) {
+	    // AMD - RequireJS
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if ( typeof module == 'object' && module.exports ) {
+	    // CommonJS - Browserify, Webpack
+	    module.exports = factory();
+	  } else {
+	    // Browser globals
+	    global.EvEmitter = factory();
+	  }
+
+	}( typeof window != 'undefined' ? window : this, function() {
+
+	"use strict";
+
+	function EvEmitter() {}
+
+	var proto = EvEmitter.prototype;
+
+	proto.on = function( eventName, listener ) {
+	  if ( !eventName || !listener ) {
+	    return;
+	  }
+	  // set events hash
+	  var events = this._events = this._events || {};
+	  // set listeners array
+	  var listeners = events[ eventName ] = events[ eventName ] || [];
+	  // only add once
+	  if ( listeners.indexOf( listener ) == -1 ) {
+	    listeners.push( listener );
+	  }
+
+	  return this;
+	};
+
+	proto.once = function( eventName, listener ) {
+	  if ( !eventName || !listener ) {
+	    return;
+	  }
+	  // add event
+	  this.on( eventName, listener );
+	  // set once flag
+	  // set onceEvents hash
+	  var onceEvents = this._onceEvents = this._onceEvents || {};
+	  // set onceListeners object
+	  var onceListeners = onceEvents[ eventName ] = onceEvents[ eventName ] || {};
+	  // set flag
+	  onceListeners[ listener ] = true;
+
+	  return this;
+	};
+
+	proto.off = function( eventName, listener ) {
+	  var listeners = this._events && this._events[ eventName ];
+	  if ( !listeners || !listeners.length ) {
+	    return;
+	  }
+	  var index = listeners.indexOf( listener );
+	  if ( index != -1 ) {
+	    listeners.splice( index, 1 );
+	  }
+
+	  return this;
+	};
+
+	proto.emitEvent = function( eventName, args ) {
+	  var listeners = this._events && this._events[ eventName ];
+	  if ( !listeners || !listeners.length ) {
+	    return;
+	  }
+	  var i = 0;
+	  var listener = listeners[i];
+	  args = args || [];
+	  // once stuff
+	  var onceListeners = this._onceEvents && this._onceEvents[ eventName ];
+
+	  while ( listener ) {
+	    var isOnce = onceListeners && onceListeners[ listener ];
+	    if ( isOnce ) {
+	      // remove listener
+	      // remove before trigger to prevent recursion
+	      this.off( eventName, listener );
+	      // unset once flag
+	      delete onceListeners[ listener ];
+	    }
+	    // trigger listener
+	    listener.apply( this, args );
+	    // get next listener
+	    i += isOnce ? 0 : 1;
+	    listener = listeners[i];
+	  }
+
+	  return this;
+	};
+
+	return EvEmitter;
+
+	}));
+
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.transitionEnd = exports.transitionUnBind = exports.transitionBind = exports.transiteMove = undefined;
+
+	var _jquery = __webpack_require__(299);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function transiteMove(ele, anim, callback) {
+	    ele.addClass(anim);
+	    transitionEnd(ele, function () {
+	        if (callback) {
+	            callback.apply();
+	        }
+	    });
+	}
+
+	function transitionBind(ele, options) {
+	    if (options == null) {
+	        options = 'transform ease-out 0.7s';
+	    }
+	    ele.css('transition', options);
+	}
+
+	function transitionUnBind(ele) {
+	    ele.css('transition', '');
+	}
+
+	function transitionEnd(ele, callback) {
+	    "use strict";
+
+	    (0, _jquery2.default)(ele).unbind('webkitTransitionEnd transitionend msTransitionEnd oTransitionEnd');
+	    (0, _jquery2.default)(ele).bind('webkitTransitionEnd transitionend msTransitionEnd oTransitionEnd', function () {
+	        (0, _jquery2.default)(ele).unbind('webkitTransitionEnd transitionend msTransitionEnd oTransitionEnd');
+	        if (callback) {
+	            callback.apply();
+	        }
+	    });
+	}
+
+	function animationEnd(ele, callback) {
+	    "use strict";
+
+	    (0, _jquery2.default)(ele).unbind('animationend webkitAnimationEnd MSAnimationEnd oanimationend');
+	    (0, _jquery2.default)(ele).bind('animationend webkitAnimationEnd MSAnimationEnd oanimationend', function () {
+	        (0, _jquery2.default)(ele).unbind('animationend webkitAnimationEnd MSAnimationEnd oanimationend');
+	        if (callback) {
+	            callback.apply();
+	        }
+	    });
+	}
+
+	exports.transiteMove = transiteMove;
+	exports.transitionBind = transitionBind;
+	exports.transitionUnBind = transitionUnBind;
+	exports.transitionEnd = transitionEnd;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _jquery = __webpack_require__(299);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _animateUtils = __webpack_require__(303);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Landing = function () {
+	    function Landing() {
+	        _classCallCheck(this, Landing);
+	    }
+
+	    _createClass(Landing, [{
+	        key: 'init',
+	        value: function init() {
+	            this.showLanding();
+	            this.showLogo();
+	        }
+	    }, {
+	        key: 'showLanding',
+	        value: function showLanding() {
+	            var landing = (0, _jquery2.default)('#landing');
+	            var background = (0, _jquery2.default)('#landing').find('.background');
+	            landing.css('display', 'block');
+	            setTimeout(function () {
+	                (0, _animateUtils.transiteMove)(landing, 'show', function () {
+	                    (0, _animateUtils.transiteMove)(background, 'show', function () {});
+	                });
+	            }, 400);
+	        }
+	    }, {
+	        key: 'showLogo',
+	        value: function showLogo() {
+	            var logo = (0, _jquery2.default)('#logo').find('.inside').find('.box').find('img');
+	            setTimeout(function () {
+	                (0, _animateUtils.transiteMove)(logo, 'show', function () {});
+	            }, 1500);
+	        }
+	    }]);
+
+	    return Landing;
+	}();
+
+	exports.default = Landing;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _jquery = __webpack_require__(299);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _animateUtils = __webpack_require__(303);
+
+	var _MyEmitter = __webpack_require__(306);
+
+	var _MyEmitter2 = _interopRequireDefault(_MyEmitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var nav = (0, _jquery2.default)('#nav');
+	var isOpen = false;
+
+	var Nav = function () {
+	    function Nav() {
+	        _classCallCheck(this, Nav);
+	    }
+
+	    _createClass(Nav, [{
+	        key: 'init',
+	        value: function init() {
+	            var _this = this;
+
+	            setTimeout(function () {
+	                (0, _animateUtils.transiteMove)(nav, 'show', function () {
+	                    _this.initButtons();
+	                });
+	            }, 1200);
+	        }
+	    }, {
+	        key: 'initButtons',
+	        value: function initButtons() {
+	            var _this2 = this;
+
+	            var hamburger = (0, _jquery2.default)('.hamburger');
+	            hamburger.click(function () {
+	                if (!isOpen) {
+	                    _MyEmitter2.default.emit('onNavClick', 'open');
+	                    _this2.open();
+	                    isOpen = true;
+	                } else {
+	                    _MyEmitter2.default.emit('onNavClick', 'close');
+	                    _this2.close();
+	                    isOpen = false;
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'open',
+	        value: function open() {
+	            (0, _animateUtils.transiteMove)(nav, 'open');
+	        }
+	    }, {
+	        key: 'close',
+	        value: function close() {
+	            nav.removeClass('open');
+	        }
+	    }]);
+
+	    return Nav;
+	}();
+
+	exports.default = Nav;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EventEmitter = __webpack_require__(307);
+
+	var MyEmitter = function (_EventEmitter) {
+	  _inherits(MyEmitter, _EventEmitter);
+
+	  function MyEmitter() {
+	    _classCallCheck(this, MyEmitter);
+
+	    return _possibleConstructorReturn(this, (MyEmitter.__proto__ || Object.getPrototypeOf(MyEmitter)).apply(this, arguments));
+	  }
+
+	  return MyEmitter;
+	}(EventEmitter);
+
+	var myEmitter = new MyEmitter();
+
+	exports.default = myEmitter;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function(n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n))
+	    throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+
+	EventEmitter.prototype.emit = function(type) {
+	  var er, handler, len, args, i, listeners;
+
+	  if (!this._events)
+	    this._events = {};
+
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error ||
+	        (isObject(this._events.error) && !this._events.error.length)) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      } else {
+	        // At least give some kind of context to the user
+	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+	        err.context = er;
+	        throw err;
+	      }
+	    }
+	  }
+
+	  handler = this._events[type];
+
+	  if (isUndefined(handler))
+	    return false;
+
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        args = Array.prototype.slice.call(arguments, 1);
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    args = Array.prototype.slice.call(arguments, 1);
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++)
+	      listeners[i].apply(this, args);
+	  }
+
+	  return true;
+	};
+
+	EventEmitter.prototype.addListener = function(type, listener) {
+	  var m;
+
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  if (!this._events)
+	    this._events = {};
+
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener)
+	    this.emit('newListener', type,
+	              isFunction(listener.listener) ?
+	              listener.listener : listener);
+
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;
+	  else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);
+	  else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+	EventEmitter.prototype.once = function(type, listener) {
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  var fired = false;
+
+	  function g() {
+	    this.removeListener(type, g);
+
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+
+	  g.listener = listener;
+	  this.on(type, g);
+
+	  return this;
+	};
+
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function(type, listener) {
+	  var list, position, length, i;
+
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  if (!this._events || !this._events[type])
+	    return this;
+
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+
+	  if (list === listener ||
+	      (isFunction(list.listener) && list.listener === listener)) {
+	    delete this._events[type];
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener ||
+	          (list[i].listener && list[i].listener === listener)) {
+	        position = i;
+	        break;
+	      }
+	    }
+
+	    if (position < 0)
+	      return this;
+
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.removeAllListeners = function(type) {
+	  var key, listeners;
+
+	  if (!this._events)
+	    return this;
+
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0)
+	      this._events = {};
+	    else if (this._events[type])
+	      delete this._events[type];
+	    return this;
+	  }
+
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+
+	  listeners = this._events[type];
+
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else if (listeners) {
+	    // LIFO order
+	    while (listeners.length)
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+
+	  return this;
+	};
+
+	EventEmitter.prototype.listeners = function(type) {
+	  var ret;
+	  if (!this._events || !this._events[type])
+	    ret = [];
+	  else if (isFunction(this._events[type]))
+	    ret = [this._events[type]];
+	  else
+	    ret = this._events[type].slice();
+	  return ret;
+	};
+
+	EventEmitter.prototype.listenerCount = function(type) {
+	  if (this._events) {
+	    var evlistener = this._events[type];
+
+	    if (isFunction(evlistener))
+	      return 1;
+	    else if (evlistener)
+	      return evlistener.length;
+	  }
+	  return 0;
+	};
+
+	EventEmitter.listenerCount = function(emitter, type) {
+	  return emitter.listenerCount(type);
+	};
+
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+
+/***/ },
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _jquery = __webpack_require__(299);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _Submenu = __webpack_require__(309);
+
+	var _Submenu2 = _interopRequireDefault(_Submenu);
+
+	var _MenuButton = __webpack_require__(311);
+
+	var _animateUtils = __webpack_require__(303);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var submenu = new _Submenu2.default();
+	var menu = (0, _jquery2.default)('#menu');
+	var menuMain = (0, _jquery2.default)('#menu').find('.main');
+	var menuClickedId = 0;
+	var menuOverId = 0;
+
+	var Menu = function () {
+	    function Menu() {
+	        _classCallCheck(this, Menu);
+
+	        this.bindButtons();
+	    }
+
+	    _createClass(Menu, [{
+	        key: 'setDefaultButtonClick',
+	        value: function setDefaultButtonClick() {
+	            var _this = this;
+
+	            var btns = menuMain.find('ul').find('li');
+	            btns.each(function (index, btn) {
+	                if (menuClickedId === index) {
+	                    _this.buttonOver(btn);
+	                } else {
+	                    _this.buttonOut(btn);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'bindButtons',
+	        value: function bindButtons() {
+	            var _this2 = this;
+
+	            var btns = menuMain.find('ul').find('li');
+	            (0, _MenuButton.bindButtonsClick)(btns, function (clickedId, clickedBtn, unclickedArr) {
+	                menuClickedId = clickedId;
+	            });
+
+	            (0, _MenuButton.bindButtonsOver)(btns, function (overId, overBtn, outArr) {
+	                menuOverId = overId;
+	                _this2.buttonOver(overBtn);
+	                _this2.buttonOut(outArr);
+	            });
+	        }
+	    }, {
+	        key: 'buttonOver',
+	        value: function buttonOver(btn) {
+	            (0, _animateUtils.transiteMove)((0, _jquery2.default)(btn), 'over');
+	            submenu.updateData(menuOverId);
+	        }
+	    }, {
+	        key: 'buttonOut',
+	        value: function buttonOut(unclickedBtn) {
+	            if (Array.isArray(unclickedBtn)) {
+	                var i = void 0;
+	                for (i = 0; i < unclickedBtn.length; i++) {
+	                    var btn = unclickedBtn[i].btn;
+	                    (0, _jquery2.default)(btn).removeClass('over');
+	                }
+	            } else {
+	                (0, _jquery2.default)(unclickedBtn).removeClass('over');
+	            }
+	        }
+	    }, {
+	        key: 'open',
+	        value: function open() {
+	            var _this3 = this;
+
+	            menu.css('display', 'block');
+	            setTimeout(function () {
+	                (0, _animateUtils.transiteMove)(menu, 'open', function () {
+	                    _this3.setDefaultButtonClick();
+	                });
+	            }, 50);
+	        }
+	    }, {
+	        key: 'close',
+	        value: function close() {
+	            menu.removeClass('open');
+	            (0, _animateUtils.transitionEnd)(menu, function () {
+	                menu.css('display', 'none');
+	            });
+	        }
+	    }]);
+
+	    return Menu;
+	}();
+
+	exports.default = Menu;
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _jquery = __webpack_require__(299);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _Subsubmenu = __webpack_require__(310);
+
+	var _Subsubmenu2 = _interopRequireDefault(_Subsubmenu);
+
+	var _MenuButton = __webpack_require__(311);
+
+	var _animateUtils = __webpack_require__(303);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var subSubmenu = new _Subsubmenu2.default();
+	var menu = (0, _jquery2.default)('#menu');
+	var menuSub = (0, _jquery2.default)('#subLists');
+	var maxRows = 12;
+	var totalColumn = 0;
+	var submenuOverId = 0;
+	var submenuClickedId = 0;
+	var menuSubArr = [];
+	var dataId = void 0;
+
+	var Submenu = function () {
+	    function Submenu() {
+	        _classCallCheck(this, Submenu);
+
+	        console.log(window.GALLERY_PHOTOS_TITLES_EN);
+	    }
+
+	    _createClass(Submenu, [{
+	        key: 'updateData',
+	        value: function updateData(_dataId) {
+	            this.dispose();
+	            dataId = _dataId;
+	            if (dataId === 0) {
+	                menuSubArr = window.GALLERY_PHOTOS_TITLES_EN;
+	            } else if (dataId === 1) {
+	                menuSubArr = window.NEWS_EN;
+	            }
+	            this.initSubmenu();
+	        }
+	    }, {
+	        key: 'initSubmenu',
+	        value: function initSubmenu() {
+	            if (menuSubArr.length === 0) {
+	                return;
+	            }
+	            this.makeColumn();
+	            if (dataId === 1) {
+	                this.bindButtons();
+	            }
+	        }
+	    }, {
+	        key: 'makeColumn',
+	        value: function makeColumn() {
+	            var menuSubLists = document.getElementById('subLists');
+	            var col = document.createElement('ul');
+	            menuSubLists.appendChild(col);
+
+	            var i = maxRows * totalColumn,
+	                row = 0;
+	            while (i < menuSubArr.length && row < maxRows) {
+	                var list = document.createElement('li');
+	                this.open(list, i);
+	                list.innerHTML = menuSubArr[i];
+	                col.appendChild(list);
+	                i++;
+	                row++;
+
+	                if (row === maxRows) {
+	                    totalColumn += 1;
+	                    this.makeColumn();
+	                }
+	            }
+	        }
+	    }, {
+	        key: 'bindButtons',
+	        value: function bindButtons() {
+	            var _this = this;
+
+	            var btns = menuSub.find('ul').find('li');
+	            (0, _MenuButton.bindButtonsClick)(btns, function (clickedId, clickedBtn, unclickedArr) {});
+
+	            (0, _MenuButton.bindButtonsOver)(btns, function (overId, overBtn, outArr) {
+	                submenuOverId = overId;
+	                _this.buttonOver(overBtn);
+	                _this.buttonOut(outArr);
+	            });
+	        }
+	    }, {
+	        key: 'buttonOver',
+	        value: function buttonOver(btn) {
+	            (0, _animateUtils.transiteMove)((0, _jquery2.default)(btn), 'over');
+	            subSubmenu.updateData(0);
+	        }
+	    }, {
+	        key: 'buttonOut',
+	        value: function buttonOut(unclickedBtn) {
+	            if (Array.isArray(unclickedBtn)) {
+	                var i = void 0;
+	                for (i = 0; i < unclickedBtn.length; i++) {
+	                    var btn = unclickedBtn[i].btn;
+	                    (0, _jquery2.default)(btn).removeClass('over');
+	                }
+	            } else {
+	                (0, _jquery2.default)(unclickedBtn).removeClass('over');
+	            }
+	        }
+	    }, {
+	        key: 'open',
+	        value: function open(list, id) {
+	            setTimeout(function () {
+	                (0, _animateUtils.transiteMove)((0, _jquery2.default)(list), 'open');
+	            }, 10 + (id + 1) * 50);
+	        }
+	    }, {
+	        key: 'close',
+	        value: function close() {}
+	    }, {
+	        key: 'dispose',
+	        value: function dispose() {
+	            totalColumn = 0;
+	            menuSubArr = [];
+	            menuSub.empty();
+	        }
+	    }]);
+
+	    return Submenu;
+	}();
+
+	exports.default = Submenu;
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _jquery = __webpack_require__(299);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _Submenu2 = __webpack_require__(309);
+
+	var _Submenu3 = _interopRequireDefault(_Submenu2);
+
+	var _MenuButton = __webpack_require__(311);
+
+	var _animateUtils = __webpack_require__(303);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var menu = (0, _jquery2.default)('#menu');
+	var menuSubSub = (0, _jquery2.default)('#SubsubLists');
+
+	var Subsubmenu = function (_Submenu) {
+	    _inherits(Subsubmenu, _Submenu);
+
+	    function Subsubmenu() {
+	        _classCallCheck(this, Subsubmenu);
+
+	        return _possibleConstructorReturn(this, (Subsubmenu.__proto__ || Object.getPrototypeOf(Subsubmenu)).apply(this, arguments));
+	    }
+
+	    return Subsubmenu;
+	}(_Submenu3.default);
+
+	exports.default = Subsubmenu;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.bindButtonsOver = exports.unbindButtonsClick = exports.bindButtonsClick = undefined;
+
+	var _jquery = __webpack_require__(299);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function bindButtonsClick(btns, callback) {
+	    var _this = this;
+
+	    var btnsArr = [];
+	    btns.each(function (index, btn) {
+	        btnsArr.push({ index: index, btn: btn });
+	        (0, _jquery2.default)(btn).click(function () {
+	            //return an array in which btns not contain clicked btn
+	            var filterBtns = btnsArr.filter(function (btns) {
+	                if (btns.index != index) {
+	                    return btns;
+	                }
+	            });
+	            if (callback) {
+	                callback.apply(_this, [index, btn, filterBtns]);
+	            }
+	        });
+	    });
+	}
+
+	function bindButtonsOver(btns, callback) {
+	    var _this2 = this;
+
+	    var btnsArr = [];
+	    btns.each(function (index, btn) {
+	        btnsArr.push({ index: index, btn: btn });
+	        (0, _jquery2.default)(btn).mouseover(function () {
+	            //return an array in which btns not contain clicked btn
+	            var filterBtns = btnsArr.filter(function (btns) {
+	                if (btns.index != index) {
+	                    return btns;
+	                }
+	            });
+	            if (callback) {
+	                callback.apply(_this2, [index, btn, filterBtns]);
+	            }
+	        });
+	    });
+	}
+
+	function unbindButtonsClick() {}
+
+	exports.bindButtonsClick = bindButtonsClick;
+	exports.unbindButtonsClick = unbindButtonsClick;
+	exports.bindButtonsOver = bindButtonsOver;
+
+/***/ },
+/* 312 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(313);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(316)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/sass-loader/index.js!./style.scss", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/sass-loader/index.js!./style.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(314)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "#intro {\n  display: table;\n  position: relative;\n  height: 100%;\n  margin: 0 auto; }\n  #intro .inside {\n    display: table-cell;\n    vertical-align: middle; }\n    #intro .inside .box {\n      display: block;\n      overflow: hidden; }\n      #intro .inside .box img {\n        transform: translate3d(0px, 110%, 0px); }\n        #intro .inside .box img.show {\n          transition: transform 0.5s ease-out;\n          transform: translate3d(0px, 0px, 0px); }\n        #intro .inside .box img.hide {\n          transition: transform 0.4s ease-in;\n          transform: translate3d(0px, -110%, 0px); }\n        @media screen and (min-width: 321px) and (max-width: 768px) {\n          #intro .inside .box img {\n            width: 300px;\n            height: auto; } }\n        @media screen and (min-width: 0) and (max-width: 320px) {\n          #intro .inside .box img {\n            width: 250px;\n            height: auto; } }\n\n#loader {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 7px;\n  background-color: white;\n  transform: scale3d(0, 1, 1);\n  transform-origin: 0 0; }\n  #loader.finish {\n    transition: transform 1.5s ease-out;\n    transform: scale3d(1, 1, 1); }\n  #loader.hide {\n    transition: transform 0.3s ease-in;\n    transform: scale3d(1, 0, 1); }\n  @media screen and (min-width: 0) and (max-width: 768px) {\n    #loader {\n      height: 4px; } }\n\n#landing {\n  display: none;\n  position: absolute;\n  width: 0;\n  height: 100%;\n  background-color: white;\n  tranform: translate3d(0, 0, 0); }\n  @media screen and (min-width: 0px) and (max-width: 768px) {\n    #landing {\n      background-color: black; } }\n  #landing.show {\n    width: 100%;\n    transition: width 0.6s ease-out; }\n  #landing .background {\n    opacity: 0;\n    width: 100%;\n    height: 100%;\n    background: url(" + __webpack_require__(315) + ") no-repeat center center;\n    background-size: cover;\n    tranform: translate3d(0, 0, 0); }\n    @media screen and (min-width: 0px) and (max-width: 768px) {\n      #landing .background {\n        background-size: contain; } }\n    #landing .background.show {\n      opacity: 1;\n      background: url(" + __webpack_require__(315) + ") no-repeat center center;\n      background-size: cover;\n      transition: opacity 0.4s ease-in; }\n      @media screen and (min-width: 0px) and (max-width: 768px) {\n        #landing .background.show {\n          background-size: contain; } }\n\n#nav {\n  position: absolute;\n  display: block;\n  width: 67px;\n  height: 100%;\n  background-color: rgba(171, 171, 171, 0.7);\n  border-right: 1px solid #c5c5c5;\n  transform: translate3d(-100%, 0, 0); }\n  @media screen and (min-width: 0px) and (max-width: 768px) {\n    #nav {\n      display: block;\n      top: 0;\n      width: 100%;\n      height: 75px;\n      background-color: transparent;\n      border-right: none;\n      transform: translate3d(0, -103%, 0); } }\n  #nav:before {\n    display: inline-block;\n    height: 100%;\n    vertical-align: middle;\n    content: ''; }\n    @media screen and (min-width: 0px) and (max-width: 768px) {\n      #nav:before {\n        height: 0; } }\n  #nav.show {\n    transition: transform 0.4s ease-out;\n    transform: translate3d(0, 0, 0); }\n    #nav.show .hamburger {\n      display: inline-block;\n      vertical-align: middle;\n      text-align: center;\n      cursor: pointer; }\n      @media screen and (min-width: 0px) and (max-width: 768px) {\n        #nav.show .hamburger {\n          display: block;\n          position: relative;\n          left: 0;\n          top: 12px;\n          width: 25px;\n          cursor: pointer; } }\n      #nav.show .hamburger .lines {\n        position: relative;\n        width: 22px;\n        margin-left: 20px;\n        float: none; }\n        #nav.show .hamburger .lines .line {\n          position: relative;\n          height: 2px;\n          margin: 5px 0;\n          background-color: #ffffff;\n          transition: transform 0.3s ease-out;\n          transform: scaleX(1) rotate(0deg); }\n          @media screen and (min-width: 0px) and (max-width: 768px) {\n            #nav.show .hamburger .lines .line {\n              margin: 7px 0px; } }\n          @media screen and (min-width: 0px) and (max-width: 768px) {\n            #nav.show .hamburger .lines .line #line1 {\n              transform-origin: 0 0;\n              transform: scaleX(1) rotate(0deg); } }\n          @media screen and (min-width: 0px) and (max-width: 768px) {\n            #nav.show .hamburger .lines .line #line3 {\n              transform-origin: 100% 0;\n              transform: scaleX(1) rotate(0deg); } }\n      #nav.show .hamburger:hover #line1 {\n        transition: transform 0.3s ease-out;\n        transform: scaleX(1) rotate(45deg); }\n        @media screen and (min-width: 0px) and (max-width: 768px) {\n          #nav.show .hamburger:hover #line1 {\n            margin: 7px 0px;\n            transform: scaleX(1) rotate(0deg); } }\n      #nav.show .hamburger:hover #line2 {\n        transition: transform 0.3s ease-out;\n        transform-origin: left top;\n        transform: scaleX(0) rotate(0deg); }\n        @media screen and (min-width: 0px) and (max-width: 768px) {\n          #nav.show .hamburger:hover #line2 {\n            margin: 7px 0px;\n            transform: scaleX(1) rotate(0deg); } }\n      #nav.show .hamburger:hover #line3 {\n        transition: transform 0.3s ease-out;\n        transform: scaleX(1) rotate(-45deg); }\n        @media screen and (min-width: 0px) and (max-width: 768px) {\n          #nav.show .hamburger:hover #line3 {\n            margin: 7px 0px;\n            transform: scaleX(1) rotate(0deg); } }\n  #nav.open {\n    display: block;\n    background-color: rgba(171, 171, 171, 0.8);\n    transition: width 0.4s ease-out; }\n    @media screen and (min-width: 0px) and (max-width: 768px) {\n      #nav.open {\n        background-color: transparent; } }\n    #nav.open .hamburger .lines #line1 {\n      transition: transform 0.3s ease-out;\n      transform: scaleX(1) rotate(-44deg); }\n      @media screen and (min-width: 0px) and (max-width: 768px) {\n        #nav.open .hamburger .lines #line1 {\n          top: 9px;\n          transform: scaleX(1) rotate(44deg); } }\n    #nav.open .hamburger .lines #line2 {\n      transition: transform 0.3s ease-out;\n      transform-origin: right top;\n      transform: scaleX(0) rotate(0deg); }\n    #nav.open .hamburger .lines #line3 {\n      left: 0;\n      top: 0;\n      transition: transform 0.3s ease-out;\n      transform: scaleX(1) rotate(44deg); }\n      @media screen and (min-width: 0px) and (max-width: 768px) {\n        #nav.open .hamburger .lines #line3 {\n          left: 15px;\n          top: -9px;\n          transform: scaleX(1) rotate(-44deg); } }\n\n#menu {\n  display: block;\n  position: absolute;\n  left: 68px;\n  width: 100%;\n  height: 100%;\n  padding: 0 30px;\n  background-color: rgba(45, 45, 45, 0.9);\n  box-shadow: 1px 0px 1px 0 #404040;\n  transition: all 0.3s ease-in;\n  transform: translate3d(-100%, 0, 0);\n  opacity: 0; }\n  @media screen and (min-width: 0px) and (max-width: 768px) {\n    #menu {\n      display: none;\n      top: 135px;\n      left: 0;\n      bottom: 0;\n      width: 100%;\n      height: auto;\n      padding: 20px 0 0 0;\n      border-top: 1px solid #292929;\n      background-color: rgba(31, 31, 31, 0.8);\n      transform: translate3d(0, 100%, 0); } }\n  #menu:before {\n    display: inline-block;\n    content: '';\n    height: 100%;\n    vertical-align: middle; }\n    @media screen and (min-width: 0px) and (max-width: 768px) {\n      #menu:before {\n        display: none; } }\n  #menu.open {\n    transition: all 0.5s ease-out;\n    transform: translate3d(0, 0, 0);\n    opacity: 1; }\n  #menu .main {\n    display: inline-block;\n    vertical-align: middle; }\n    @media screen and (min-width: 0px) and (max-width: 768px) {\n      #menu .main {\n        display: block; } }\n    #menu .main ul {\n      display: table;\n      width: 100%;\n      padding: 0;\n      margin: 0; }\n      #menu .main ul li {\n        font-size: 16px; }\n        @media screen and (min-width: 321px) and (max-width: 768px) {\n          #menu .main ul li {\n            display: table-cell;\n            padding: 0;\n            text-align: center;\n            min-width: 85px; } }\n        @media screen and (min-width: 0px) and (max-width: 320px) {\n          #menu .main ul li {\n            display: table-cell;\n            padding: 0;\n            text-align: center;\n            min-width: 0px; } }\n  #menu .sub {\n    display: inline-block;\n    margin-left: 70px; }\n    @media screen and (min-width: 0px) and (max-width: 768px) {\n      #menu .sub {\n        display: block;\n        width: 100%;\n        margin: 14px 0 0 0;\n        padding: 0 23px;\n        box-sizing: border-box; } }\n    #menu .sub .lists {\n      display: inline-block;\n      vertical-align: middle;\n      padding: 0;\n      margin: 0; }\n      @media screen and (min-width: 0px) and (max-width: 768px) {\n        #menu .sub .lists {\n          display: table;\n          width: 100%;\n          box-sizing: border-box; } }\n      #menu .sub .lists ul {\n        vertical-align: top;\n        overflow: hidden; }\n        @media screen and (min-width: 0px) and (max-width: 768px) {\n          #menu .sub .lists ul {\n            display: table-cell; } }\n        #menu .sub .lists ul li {\n          font-size: 12px;\n          padding: 6px 20px;\n          transition: all 0.3s ease-out;\n          transform: translate3d(-100%, 0, 0); }\n          @media screen and (min-width: 0px) and (max-width: 768px) {\n            #menu .sub .lists ul li {\n              font-size: 11px;\n              padding: 3px 0; } }\n          #menu .sub .lists ul li.open {\n            transition: all 0.4s ease-out;\n            transform: translate3d(0, 0, 0); }\n  #menu ul {\n    display: inline-block;\n    vertical-align: middle;\n    padding: 0;\n    margin: 0; }\n    #menu ul li {\n      padding: 12px 20px;\n      margin: 0;\n      text-align: left;\n      color: #929292;\n      list-style: none;\n      cursor: pointer;\n      transition: color 0.3s ease-out;\n      text-transform: capitalize; }\n      #menu ul li:hover {\n        color: white; }\n      #menu ul li.over {\n        color: white; }\n\nhtml, body {\n  width: 100%;\n  height: 100%;\n  padding: 0;\n  margin: 0;\n  background: black;\n  font-family: arial; }\n\n#wrapper {\n  position: absolute;\n  width: 100%;\n  height: 100%; }\n\n#logo {\n  display: table;\n  position: absolute;\n  left: 102px;\n  height: 100%; }\n  @media screen and (min-width: 0px) and (max-width: 768px) {\n    #logo {\n      display: block;\n      position: absolute;\n      top: 88px;\n      left: 20px;\n      right: 20px;\n      height: auto; } }\n  #logo .inside {\n    display: table-cell;\n    vertical-align: middle; }\n    @media screen and (min-width: 0px) and (max-width: 768px) {\n      #logo .inside {\n        display: block; } }\n    #logo .inside .box {\n      display: block;\n      overflow: hidden; }\n      #logo .inside .box img {\n        transform: translate3d(0, -110%, 0); }\n        @media screen and (min-width: 0px) and (max-width: 768px) {\n          #logo .inside .box img {\n            width: 100%; } }\n        #logo .inside .box img.show {\n          transition: transform 0.5s ease-out;\n          transform: translate3d(0, 0, 0); }\n\n/* MOBILE SPECIFIC */\n@media screen and (min-width: 0) and (max-width: 768px) {\n  .desktop-only {\n    display: none !important; }\n  .mobile-only {\n    display: block !important; }\n  select,\n  input[type=\"text\"],\n  input[type=\"search\"],\n  input[type=\"email\"],\n  input[type=\"url\"],\n  input[type=\"number\"],\n  input[type=\"tel\"],\n  input[type=\"password\"] {\n    font-size: 16px !important;\n    box-shadow: none;\n    border: 1px solid #c4c4c4;\n    border-radius: 2px;\n    outline: none;\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none; } }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 314 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 315 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "assets/images/homepage1.jpg";
+
+/***/ },
+/* 316 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+
+		update(obj);
+
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+
+	var replaceText = (function () {
+		var textStore = [];
+
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var sourceMap = obj.sourceMap;
+
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+
+		var blob = new Blob([css], { type: "text/css" });
+
+		var oldSrc = linkElement.href;
+
+		linkElement.href = URL.createObjectURL(blob);
+
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
 
 
 /***/ }

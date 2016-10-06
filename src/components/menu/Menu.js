@@ -1,16 +1,17 @@
 import $ from 'jquery';
 
-import { bindButtonsClick } from './MenuButton';
+import Submenu from './Submenu';
+import { bindButtonsClick, bindButtonsOver } from './MenuButton';
 import { transiteMove, transitionEnd } from './../animateUtils/animateUtils';
 
+const submenu = new Submenu();
 const menu = $('#menu');
 const menuMain = $('#menu').find('.main');
 let menuClickedId = 0;
+let menuOverId = 0;
 
 export default class Menu {
     constructor() {
-        console.log(window.GALLERY_PHOTOS_TITLES_EN);
-        this.setDefaultButtonClick();
         this.bindButtons();
     }
 
@@ -18,9 +19,9 @@ export default class Menu {
         const btns = menuMain.find('ul').find('li');
         btns.each((index, btn)=> {
             if(menuClickedId === index) {
-                this.buttonClick(btn);
+                this.buttonOver(btn);
             }else {
-                this.buttonUnClick(btn);
+                this.buttonOut(btn);
             }
         });
     }
@@ -29,31 +30,39 @@ export default class Menu {
         const btns = menuMain.find('ul').find('li');
         bindButtonsClick(btns, (clickedId, clickedBtn, unclickedArr)=> {
             menuClickedId = clickedId;
-            this.buttonClick(clickedBtn);
-            this.buttonUnClick(unclickedArr);
+        });
+
+        bindButtonsOver(btns, (overId, overBtn, outArr)=> {
+            menuOverId = overId;
+            this.buttonOver(overBtn);
+            this.buttonOut(outArr);
         });
     }
 
-    buttonClick(clickedBtn) {
-        transiteMove($(clickedBtn), 'clicked');
+    buttonOver(btn) {
+        transiteMove($(btn), 'over');
+        submenu.updateData(menuOverId);
     }
 
-    buttonUnClick(unclickedBtn) {
+    buttonOut(unclickedBtn) {
         if(Array.isArray(unclickedBtn)) {
             let i;
             for(i=0; i<unclickedBtn.length; i++) {
                 let btn = unclickedBtn[i].btn;
-                $(btn).removeClass('clicked');
+                $(btn).removeClass('over');
             }
         }else {
-            $(unclickedBtn).removeClass('clicked');
+            $(unclickedBtn).removeClass('over');
         }
     }
 
     open() {
         menu.css('display','block');
         setTimeout(()=>{
-            transiteMove(menu, 'open');
+            transiteMove(menu, 'open', ()=> {
+                this.setDefaultButtonClick();
+            });
+
         },50);
     }
     close() {
