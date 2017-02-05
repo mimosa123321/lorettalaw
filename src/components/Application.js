@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 import $ from 'jquery';
+import 'bxslider';
 
 import Opening from './opening/Opening';
 import Landing from './landing/Landing';

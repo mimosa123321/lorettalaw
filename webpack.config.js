@@ -15,13 +15,6 @@ module.exports = {
         })
     ],
 
-    resolve: {
-        alias: {
-            'jquery': __dirname + '/lib/jquery.js',
-            'jquery.bxslider': __dirname + '/lib/bxslider/jquery.bxslider.js'
-        }
-    },
-
     module: {
         loaders:[
             { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/, query: {presets: ['es2015']} },

@@ -2,8 +2,6 @@ import $ from 'jquery';
 import Store from './../../store/Store';
 import myEmitter from './../myEmitter/MyEmitter';
 
-import * as bxslider from "jquery.bxslider";
-
 export default class Album {
     constructor() {
         // const bxslider = new Bxslider();
@@ -11,19 +9,7 @@ export default class Album {
 
     init(_container) {
         "use strict";
-        // this.bxslider = Bxslider(window, $);
-        console.log(_container);
-
-        console.log(bxslider);
-
-
-        // bxslider.getCurrentSlide();
-        // console.log(this.bxslider);
-
-
-
-
-        this.bxslider = _container.bxslider({
+        this.bxslider = _container.bxSlider({
             speed: 500,
             pager: false,
             infiniteLoop: false,
