@@ -59,8 +59,8 @@
     </div>
 </body>
 <!-- DEV START -->
-<script type="application/javascript" src="lib/jquery.js"></script>
-<script type="application/javascript" src="lib/bxslider/jquery.bxslider.js"></script>
+<!--<script type="application/javascript" src="lib/jquery.js"></script>-->
+<!--<script type="application/javascript" src="lib/bxslider/jquery.bxslider.js"></script>-->
 <script type="application/javascript" src="build/app.bundle.js"></script>
 <!-- DEV END -->
 </html>

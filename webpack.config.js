@@ -10,14 +10,15 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             $: "jquery",
-            jquery: "jQuery",
-            "window.jQuery": "jquery"
+            jQuery: "jquery",
+            "window.jQuery": "jquery",
         })
     ],
 
     resolve: {
         alias: {
-            'jquery': __dirname + '/lib/jquery.js'
+            'jquery': __dirname + '/lib/jquery.js',
+            'jquery.bxslider': __dirname + '/lib/bxslider/jquery.bxslider.js'
         }
     },
 
