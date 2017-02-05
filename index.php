@@ -18,6 +18,13 @@
         <div id="landing" class="section">
             <div class="background"></div>
         </div>
+        <div id="gallery">
+            <div class="album">
+                <div class="images" style="background-image: url('http://loretta-law.com/wp-content/uploads/082.jpg')"></div>
+                <div class="images" style="background-image: url('http://loretta-law.com/wp-content/uploads/082.jpg')"></div>
+                <div class="images" style="background-image: url('http://loretta-law.com/wp-content/uploads/082.jpg')"></div>
+            </div>
+        </div>
         <div id="loader"></div>
         <div id="logo">
             <div class="inside">
@@ -50,11 +57,6 @@
                     <div class="line" id="line3"></div>
                 </div>
             </div>
-        </div>
-        <div id="gallery">
-            <div class="images" style="background-image: url('http://loretta-law.com/wp-content/uploads/082.jpg')">dsf</div>
-            <div class="images" style="background-image: url('http://loretta-law.com/wp-content/uploads/082.jpg')">sdf</div>
-            <div class="images" style="background-image: url('http://loretta-law.com/wp-content/uploads/082.jpg')">sdf</div>
         </div>
     </div>
 </body>

@@ -25,11 +25,16 @@ export default class Menu extends MenuBase {
     };
 
     setDefaultButton() {
-        myEmitter.emit('menuOverListener', 0);
+        myEmitter.emit('menuClickListener', 0);
 
         const btns = menu.find('ul').find('li');
         btns.each((index, btn)=> {
-            if(Store.menuOverId === index) {
+            /*if(Store.menuOverId === index) {
+                this.buttonOver(btn);
+            }else {
+                this.buttonOut(btn);
+            }*/
+            if(Store.menuClickedId === index) {
                 this.buttonOver(btn);
             }else {
                 this.buttonOut(btn);
@@ -38,15 +43,19 @@ export default class Menu extends MenuBase {
     }
 
     clickListener(id) {
+        if(Store.menuClickedId === id) {
+            return;
+        }
         Store.menuClickedId = id;
+        submenu.bindData();
     }
 
     overListener(id) {
-        if(Store.menuOverId === id) {
+        /*if(Store.menuOverId === id) {
             return;
         }
         Store.menuOverId = id;
-        submenu.bindData();
+        submenu.bindData();*/
     }
 
     open() {
@@ -60,7 +69,7 @@ export default class Menu extends MenuBase {
     }
 
     close() {
-        Store.menuOverId = -1;
+        Store.menuClickedId = -1;
         submenu.clear();
         menu.removeClass('open');
         transitionEnd(menu, ()=> {

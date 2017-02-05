@@ -19,30 +19,38 @@ export default class Submenu extends MenuBase {
 
     bindData() {
         let dataArr = [];
-        if(Store.menuOverId === 0) {
+        if(Store.menuClickedId === 0) {
             dataArr = window.GALLERY_PHOTOS_TITLES_EN;
-        }else if(Store.menuOverId === 1) {
+        }else if(Store.menuClickedId === 1) {
             dataArr = window.NEWS_EN;
         }
+
+        console.log(dataArr);
 
         this.clear();
         this.initMenu(dataArr);
     }
 
     clickListener(id) {
+        if(Store.subMenuClickedId === id) {
+            return;
+        }
         Store.subMenuClickedId = id;
+        subSubmenu.bindData();
+
+        // myEmitter.emit(this.clickListener, this.clickedId);
     }
 
     overListener(id) {
-        if(Store.subMenuOverId === id) {
+        /*if(Store.subMenuOverId === id) {
             return;
         }
         Store.subMenuOverId = id;
-        subSubmenu.bindData();
+        subSubmenu.bindData();*/
     }
 
     clear() {
-        Store.subMenuOverId = -1;
+        Store.subMenuClickedId = -1;
         subSubmenu.clear();
         $('#subLists').empty();
     }

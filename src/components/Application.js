@@ -48,6 +48,6 @@ export default class Application {
 
     initSection() {
         console.log(window.GALLERY_PHOTOS[0]);
-        album.init($('#gallery'));
+        album.init($('.album'));
     }
 }

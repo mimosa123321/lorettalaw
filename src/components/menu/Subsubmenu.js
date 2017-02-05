@@ -18,8 +18,8 @@ export default class Subsubmenu extends MenuBase {
 
     bindData() {
         let dataArr = [];
-        if(Store.menuOverId === 1) {
-            if(Store.subMenuOverId === 0) {
+        if(Store.menuClickedId === 1) {
+            if(Store.subMenuClickedId === 0) {
                 dataArr = window.Exhibitions;
             }
         }
@@ -33,7 +33,7 @@ export default class Subsubmenu extends MenuBase {
     }
 
     clear() {
-        Store.subSubMenuOverId = -1;
+        Store.subSubMenuClickedId = -1;
         $('#subSubLists').empty();
     }
 }
