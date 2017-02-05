@@ -1,10 +1,24 @@
 const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
 
 module.exports = {
-    entry: './src/AppRenderer.js',
+    entry: ['./src/AppRenderer.js'],
     output: {
         path: './build',
         filename: 'app.bundle.js'
+    },
+
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jquery: "jQuery",
+            "window.jQuery": "jquery"
+        })
+    ],
+
+    resolve: {
+        alias: {
+            'jquery': __dirname + '/lib/jquery.js'
+        }
     },
 
     module: {

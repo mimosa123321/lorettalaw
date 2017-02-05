@@ -7,10 +7,14 @@ import Nav from './nav/Nav';
 import Menu from './menu/Menu';
 import myEmitter from './myEmitter/MyEmitter';
 
+//test
+import Album from './utils/Album';
+
 const opening = new Opening();
 const landing = new Landing();
 const nav = new Nav();
 const menu = new Menu();
+const album = new Album();
 
 export default class Application {
     init() {
@@ -22,6 +26,7 @@ export default class Application {
         opening.preload().then(()=>{
             this.initLanding();
             this.initNav();
+            this.initSection();
         })
     }
 
@@ -38,5 +43,10 @@ export default class Application {
                 menu.close();
             }
         });
+    }
+
+    initSection() {
+        console.log(window.GALLERY_PHOTOS[0]);
+        album.init($('#gallery'));
     }
 }
