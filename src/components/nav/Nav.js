@@ -7,6 +7,9 @@ let isOpen = false;
 
 export default class Nav {
     init() {
+        myEmitter.on('onNavClose', this.close);
+        myEmitter.on('onNavOpen', this.open);
+
         setTimeout(()=> {
             transiteMove(nav, 'show', ()=> {
                 this.initButtons();
@@ -19,18 +22,19 @@ export default class Nav {
             if(!isOpen) {
                 myEmitter.emit('onNavClick','open');
                 this.open();
-                isOpen  = true;
+
             }else {
                 myEmitter.emit('onNavClick','close');
                 this.close();
-                isOpen  = false;
             }
         })
     }
     open() {
+        isOpen  = true;
         transiteMove(nav, 'open');
     }
     close() {
+        isOpen  = false;
         nav.removeClass('open');
     }
 }

@@ -25,20 +25,30 @@ export default class Submenu extends MenuBase {
             dataArr = window.NEWS_EN;
         }
 
-        console.log(dataArr);
-
         this.clear();
         this.initMenu(dataArr);
     }
 
     clickListener(id) {
-        if(Store.subMenuClickedId === id) {
+        /*if(Store.subMenuClickedId === id) {
             return;
-        }
+        }*/
         Store.subMenuClickedId = id;
-        subSubmenu.bindData();
+        if(Store.menuClickedId === 0) {
+            //update gallery
+            myEmitter.emit('onBgHide');
+            myEmitter.emit('onLogoHide');
+            myEmitter.emit('onMenuHide');
+            myEmitter.emit('updateGallery', window.GALLERY_PHOTOS, Store.subMenuClickedId);
 
-        // myEmitter.emit(this.clickListener, this.clickedId);
+        }
+        if(Store.menuClickedId === 1 && Store.subMenuClickedId === 0) {
+            subSubmenu.bindData();
+        }else {
+            myEmitter.emit('onBgHide');
+            myEmitter.emit('onMenuHide');
+        }
+        myEmitter.emit('updateSection');
     }
 
     overListener(id) {

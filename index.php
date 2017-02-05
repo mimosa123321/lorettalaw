@@ -19,12 +19,45 @@
             <div class="background"></div>
         </div>
         <div id="gallery">
-            <div class="album">
-                <div class="images" style="background-image: url('http://loretta-law.com/wp-content/uploads/082.jpg')"></div>
-                <div class="images" style="background-image: url('http://loretta-law.com/wp-content/uploads/082.jpg')"></div>
-                <div class="images" style="background-image: url('http://loretta-law.com/wp-content/uploads/082.jpg')"></div>
+            <div class="album"></div>
+        </div>
+        <div id="bio">
+            <div id="bioDescCover">
+                <p class="en">
+                    Born in 1973 in Zhanjiang. Grew up in United Kingdom.  Currently living and working in London and Beijing.  Graduated in 1998 at The Bartlett School of Architecture, University College London.  Obtained RIBA Chartered Architect qualification at Architectural Association, London 2001. Worked for 15 years as an architect.  Studied fine arts from an early age.  Started creating photographical art since 2007.<br>
+
+                    Previous exhibitions：<br>
+                    “Los Angeles 2013 MOPLA Pin-Up Show: Desire” (Robert Berman Gallery, Los Angeles, U.S.A., 2013)<br>
+
+                    “Los Angeles and Beyond: Fresh Look Reviewers Pick Projection” (MOPLA Pop-Up Gallery, Los Angeles, U.S.A., 2013)<br>
+
+                    “London Photo Festival: Black & White Photography and/or Night Photography” (The Crypt, London, United Kingdom, 2013)<br>
+
+                    “1st Beijing Photo Biennale: Aura & Post Aura”.  Nomination Exhibition: Blue and Blue (China Millennium Monument, Beijing, China, 2013)<br>
+
+                    “Seventh Annual Three Shadows Photography Award Exhibition” (Three Shadows Photography Art Centre, Beijing, China, 2015)<br><br>
+                </p>
             </div>
         </div>
+        <div id="awardsHolder">
+            <div id="awards">
+                <p class="en">
+                    Born in 1973 in Zhanjiang. Grew up in United Kingdom.  Currently living and working in London and Beijing.  Graduated in 1998 at The Bartlett School of Architecture, University College London.  Obtained RIBA Chartered Architect qualification at Architectural Association, London 2001. Worked for 15 years as an architect.  Studied fine arts from an early age.  Started creating photographical art since 2007.<br>
+
+                    Previous exhibitions：<br>
+                    “Los Angeles 2013 MOPLA Pin-Up Show: Desire” (Robert Berman Gallery, Los Angeles, U.S.A., 2013)<br>
+
+                    “Los Angeles and Beyond: Fresh Look Reviewers Pick Projection” (MOPLA Pop-Up Gallery, Los Angeles, U.S.A., 2013)<br>
+
+                    “London Photo Festival: Black & White Photography and/or Night Photography” (The Crypt, London, United Kingdom, 2013)<br>
+
+                    “1st Beijing Photo Biennale: Aura & Post Aura”.  Nomination Exhibition: Blue and Blue (China Millennium Monument, Beijing, China, 2013)<br>
+
+                    “Seventh Annual Three Shadows Photography Award Exhibition” (Three Shadows Photography Art Centre, Beijing, China, 2015)<br><br>
+                </p>
+            </div>
+        </div>
+        <div id="contact"><a id="email" href="mailto:llaw@loretta-law.com" target="_blank">info@loretta-law.com</a></div>
         <div id="loader"></div>
         <div id="logo">
             <div class="inside">

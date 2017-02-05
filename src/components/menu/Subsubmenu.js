@@ -27,6 +27,17 @@ export default class Subsubmenu extends MenuBase {
     }
 
     clickListener(id) {
+        console.log("subsub" , id);
+        if(Store.subSubMenuClickedId === id) {
+            return;
+        }
+        Store.subSubMenuClickedId = id;
+        myEmitter.emit('onBgHide');
+        myEmitter.emit('onLogoHide');
+        myEmitter.emit('onMenuHide');
+        myEmitter.emit('updateGallery', window.NEWS_PHOTOS, Store.subSubMenuClickedId);
+
+        myEmitter.emit('updateSection');
     }
 
     overListener(id) {

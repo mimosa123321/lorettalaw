@@ -13,6 +13,7 @@ const menuMainList = document.getElementById('mainLists');
 export default class Menu extends MenuBase {
     constructor() {
         super();
+        this.isInit = false;
         myEmitter.on('menuOverListener', this.overListener);
         myEmitter.on('menuClickListener', this.clickListener);
         this.init(menuMainList, 0, 0, 'menuClickListener', 'menuOverListener');
@@ -25,15 +26,14 @@ export default class Menu extends MenuBase {
     };
 
     setDefaultButton() {
-        myEmitter.emit('menuClickListener', 0);
-
+        if(!this.isInit) {
+            //show the submenu by default when it's first initiated
+            myEmitter.emit('menuClickListener', 0);
+            this.isInit = true;
+        }
         const btns = menu.find('ul').find('li');
         btns.each((index, btn)=> {
-            /*if(Store.menuOverId === index) {
-                this.buttonOver(btn);
-            }else {
-                this.buttonOut(btn);
-            }*/
+
             if(Store.menuClickedId === index) {
                 this.buttonOver(btn);
             }else {
@@ -43,11 +43,15 @@ export default class Menu extends MenuBase {
     }
 
     clickListener(id) {
-        if(Store.menuClickedId === id) {
-            return;
-        }
         Store.menuClickedId = id;
-        submenu.bindData();
+        if(Store.menuClickedId === 2 || Store.menuClickedId === 3) {
+            myEmitter.emit('onBgHide');
+            myEmitter.emit('onMenuHide');
+            submenu.clear();
+        }else {
+            submenu.bindData();
+        }
+        myEmitter.emit('updateSection');
     }
 
     overListener(id) {
@@ -64,13 +68,19 @@ export default class Menu extends MenuBase {
             transiteMove(menu, 'open', ()=> {
                 this.bindData();
             });
-
         },50);
     }
 
+    hide() {
+        menu.removeClass('open');
+        transitionEnd(menu, ()=> {
+            menu.css('display','none');
+        },100);
+    }
+
     close() {
-        Store.menuClickedId = -1;
-        submenu.clear();
+        // Store.menuClickedId = -1;
+        // submenu.clear();
         menu.removeClass('open');
         transitionEnd(menu, ()=> {
             menu.css('display','none');

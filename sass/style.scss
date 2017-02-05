@@ -1,8 +1,10 @@
+@import 'jquery.bxslider';
 @import 'gallery';
 @import 'opening';
 @import 'landing';
 @import 'nav';
 @import 'menu';
+@import 'bio';
 
 html, body {
   width: 100%;
@@ -21,6 +23,7 @@ html, body {
 
 #logo {
   display: table;
+
   position: absolute;
   left: 102px;
   height: 100%;
@@ -42,7 +45,9 @@ html, body {
       display: block;
       overflow: hidden;
       img {
+        display: none;
         transform: translate3d(0,-110%,0);
+        transition: transform 0.5s ease-out;
         @media screen and (min-width:0px) and (max-width:768px) {
           width:100%;
         }
