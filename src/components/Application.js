@@ -29,6 +29,7 @@ export default class Application {
         this.initOpening();
 
         document.ontouchmove = function(event){
+            // browser window not allowed to bounce when touch in gallery section
             if(!Store.isAllowTouchMove) {
                 event.preventDefault();
             }
@@ -62,17 +63,21 @@ export default class Application {
                     gallery.hide();
                 }
 
+                Store.isAllowTouchMove = true;
+
             }else {
                 menu.close();
 
                 //if gallery section
                 if(Store.menuClickedId === 0) {
+                    Store.isAllowTouchMove = false;
                     gallery.show();
                     landing.hideLogo();
                 }
 
                 //if exhibition section
                 if(Store.menuClickedId === 1 && Store.subMenuClickedId === 0) {
+                    Store.isAllowTouchMove = false;
                     gallery.show();
                     landing.hideLogo();
                 }

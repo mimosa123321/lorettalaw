@@ -75,7 +75,5 @@ export default class Album {
                 }
             }
         });
-
     }
-
 }
