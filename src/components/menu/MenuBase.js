@@ -1,5 +1,6 @@
 import $ from 'jquery';
 
+import Store from './../../store/Store';
 import myEmitter from './../myEmitter/MyEmitter';
 import { bindButtonsClick, bindButtonsOver } from './MenuButton';
 import { transiteMove } from './../animateUtils/animateUtils';
@@ -19,14 +20,21 @@ export default class MenuBase {
         this.overListener = _overListener;
     }
 
-    initMenu(dataArr) {
+    initMenu(dataArr, isRow) {
         this.dispose();
         this.menuArr = dataArr;
 
         if(this.menuArr.length === 0) {
             return;
         }
-        this.makeColumn();
+
+        if(isRow) {
+            //for gallery menu
+            this.makeRow();
+        }else {
+            this.makeColumn();
+        }
+
         this.bindButtons();
     }
 
@@ -40,6 +48,7 @@ export default class MenuBase {
             this.show(list, i);
             list.innerHTML = this.menuArr[i];
             col.appendChild(list);
+
             i++;
             row++;
 
@@ -47,6 +56,22 @@ export default class MenuBase {
                 totalColumn += 1;
                 this.makeColumn();
             }
+        }
+    }
+
+    makeRow() {
+        var col = document.createElement('ul');
+        col.className = "horizontal";
+        this.menuLists.appendChild(col);
+
+        var i = 0;
+        while (i<this.menuArr.length) {
+            var list = document.createElement('li');
+            this.show(list, i);
+            list.innerHTML = this.menuArr[i];
+            col.appendChild(list);
+
+            i++;
         }
     }
 

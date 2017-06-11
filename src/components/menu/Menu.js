@@ -31,20 +31,18 @@ export default class Menu extends MenuBase {
             myEmitter.emit('menuClickListener', 0);
             this.isInit = true;
         }
+
         const btns = menu.find('ul').find('li');
         btns.each((index, btn)=> {
-
             if(Store.menuClickedId === index) {
                 this.buttonOver(btn);
-            }else {
-                this.buttonOut(btn);
             }
         });
     }
 
     clickListener(id) {
         Store.menuClickedId = id;
-        if(Store.menuClickedId === 2 || Store.menuClickedId === 3) {
+        if(Store.menuClickedId === 2) {
             myEmitter.emit('onBgHide');
             myEmitter.emit('onMenuHide');
             submenu.clear();

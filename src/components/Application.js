@@ -53,8 +53,29 @@ export default class Application {
             if(status === 'open') {
                 menu.open();
                 landing.showLogo('now');
+                //if gallery section
+                if(Store.menuClickedId === 0) {
+                    gallery.hide();
+                }
+                //if exhibition section
+                if(Store.menuClickedId === 1 && Store.subMenuClickedId === 0) {
+                    gallery.hide();
+                }
+
             }else {
                 menu.close();
+
+                //if gallery section
+                if(Store.menuClickedId === 0) {
+                    gallery.show();
+                    landing.hideLogo();
+                }
+
+                //if exhibition section
+                if(Store.menuClickedId === 1 && Store.subMenuClickedId === 0) {
+                    gallery.show();
+                    landing.hideLogo();
+                }
             }
         });
 
@@ -77,9 +98,9 @@ export default class Application {
     }
 
     updateSection() {
-        console.log('menu:',Store.menuClickedId);
-        console.log('submenu:',Store.subMenuClickedId);
-        console.log('subsubmenu:',Store.subSubMenuClickedId);
+        // console.log('menu:',Store.menuClickedId);
+        // console.log('submenu:',Store.subMenuClickedId);
+        // console.log('subsubmenu:',Store.subSubMenuClickedId);
         //section gallery
         if(Store.menuClickedId === 0) {
         }
@@ -95,6 +116,13 @@ export default class Application {
         //section bio
         if(Store.menuClickedId === 2) {
             gallery.remove();
+
+            //calculate the logo height to define "bio" position
+            var logoHeight = parseInt($('#logo').css('height'));
+            var logoTop = parseInt($('#logo').css('top'));
+            var offsetHeight = 10;
+            bio.css('top', logoHeight + logoTop + offsetHeight);
+
             this.initSection(bio);
         }else {
             this.removeSection(bio);
@@ -103,9 +131,11 @@ export default class Application {
         //section contact
         if(Store.menuClickedId === 3) {
             gallery.remove();
-            this.initSection(contact);
+            window.location.href = "mailto:llaw@loretta-law.com";
+            // this.initSection(contact);
+
         }else {
-            this.removeSection(contact);
+            // this.removeSection(contact);
         }
     }
 }

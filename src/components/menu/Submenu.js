@@ -18,15 +18,17 @@ export default class Submenu extends MenuBase {
     }
 
     bindData() {
-        let dataArr = [];
+        let dataArr = [], isRow;
         if(Store.menuClickedId === 0) {
             dataArr = window.GALLERY_PHOTOS_TITLES_EN;
+            isRow = true;
         }else if(Store.menuClickedId === 1) {
             dataArr = window.NEWS_EN;
+            isRow = false;
         }
 
         this.clear();
-        this.initMenu(dataArr);
+        this.initMenu(dataArr, isRow);
     }
 
     clickListener(id) {
@@ -45,6 +47,7 @@ export default class Submenu extends MenuBase {
         if(Store.menuClickedId === 1 && Store.subMenuClickedId === 0) {
             subSubmenu.bindData();
         }else {
+            subSubmenu.clear();
             myEmitter.emit('onBgHide');
             myEmitter.emit('onMenuHide');
         }

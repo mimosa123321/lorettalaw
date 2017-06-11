@@ -23,11 +23,11 @@ export default class Subsubmenu extends MenuBase {
                 dataArr = window.Exhibitions;
             }
         }
+        $('.subsub').css('opacity','1');
         this.initMenu(dataArr);
     }
 
     clickListener(id) {
-        console.log("subsub" , id);
         if(Store.subSubMenuClickedId === id) {
             return;
         }
@@ -45,6 +45,7 @@ export default class Subsubmenu extends MenuBase {
 
     clear() {
         Store.subSubMenuClickedId = -1;
+        $('.subsub').css('opacity','0');
         $('#subSubLists').empty();
     }
 }

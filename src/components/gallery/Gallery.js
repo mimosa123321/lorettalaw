@@ -23,18 +23,34 @@ export default class Gallery extends Album {
         album.empty();
         var photoList =photoArr[menuId];
         var title = photoList[0].title;
+
+        // gallery : put story
+        if(Store.menuClickedId === 0 ) {
+            if(window.GALLERY_POST_CONTENTS_EN[menuId] !== "") {
+                album.append("<div class='story'><h3>" + title + "</h3>" + window.GALLERY_POST_CONTENTS_EN[menuId] + "</div>");
+            }
+        }
+
         for(var i=0; i<photoList.length; i++) {
             var img = photoList[i].image;
-            // album.append("<div class='images' style='background-image: url(" + img + ")'></div>");
-
-            var caption = photoList[i].caption;
-            album.append("<div class='images'><img src=" + img + " /><b>" + title + "</b>, " + caption + "</div>");
+            //var caption = photoList[i].caption;
+            album.append("<div class='images' style='background-image: url(" + img + ")'></div>")
         }
 
         gallery.css('opacity',1);
-        this.initSlider(album);
+        this.initSlider(album, photoList);
         Store.isAllowTouchMove = false;
     }
+
+    hide() {
+        gallery.css('opacity',0);
+    }
+
+    show() {
+        gallery.css('opacity',1);
+    }
+
+
     remove() {
         if(parseInt(gallery.css('opacity')) === 1) {
             gallery.css('opacity',0);
